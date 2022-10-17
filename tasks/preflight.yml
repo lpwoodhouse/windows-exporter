@@ -1,6 +1,6 @@
 ---
 - name: Check if windows_exporter is installed
-  stat:
+  win_stat:
     path: '{{ _windows_exporter_exe_install_dir }}'
   register: __windows_exporter_is_installed
 
@@ -13,16 +13,16 @@
 
 - block:
     - name: Get latest release
-      uri:
+      win_uri:
         url: "https://api.github.com/repos/prometheus-community/windows_exporter/releases/latest"
-        method: GET
+        url_method: GET
         return_content: true
         status_code: 200
         body_format: json
-        user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
-        password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
+        #url_user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
+        #url_password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
       register: _latest_release
-      until: _latest_release.status == 200
+      until: _latest_release.status_code == 200
       retries: 5
 
     - name: "Set windows_exporter version to {{ _latest_release.json.tag_name[1:] }}"
