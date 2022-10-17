@@ -1,7 +1,7 @@
 ---
 - name: Check if windows_exporter is installed
   win_stat:
-    path: '{{ _windows_exporter_exe_install_dir }}'
+    path: '{{ _windows_exporter_install_dir }}'
   register: __windows_exporter_is_installed
 
 - name: Gather currently installed windows_exporter version (if any)

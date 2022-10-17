@@ -9,6 +9,13 @@
   until: _download_installer is succeeded
   retries: 5
   delay: 2
+  when: _windows_exporter_msi_local_dir | length == 0
+
+- name: propagate locally distributed node_exporter binary
+  win_copy:
+    src: '{{ _windows_exporter_msi_local_dir }}/windows_exporter-{{ _windows_exporter_version }}-{{ win_arch }}.msi'
+    dest: '%USERPROFILE%\Downloads'
+  when: _windows_exporter_msi_local_dir | length > 0
 
 - name: Install windows_exporter package
   win_shell: |
