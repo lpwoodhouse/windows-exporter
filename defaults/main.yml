@@ -1,4 +1,4 @@
 ---
 _windows_exporter_version: latest
 _windows_exporter_msi_local_path: ""
-_windows_exporter_download_dir: '%USERPROFILE\Downloads'
+_windows_exporter_download_dir: '%USERPROFILE%\Downloads'

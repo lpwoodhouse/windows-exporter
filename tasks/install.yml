@@ -11,7 +11,7 @@
   delay: 2
 - name: Set windows_exporter download directory
   set_fact:
-    _windows_exporter_download_dir: '{{ _download_instaler.dest }}'
+    _windows_exporter_download_dir: '{{ _download_installer.dest }}'
   when: _windows_exporter_msi_local_path | length == 0
 
 - block:
