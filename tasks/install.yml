@@ -28,7 +28,8 @@
   when: _windows_exporter_msi_local_dir | length > 0
 
 - name: Install windows_exporter package
-  win_shell: msiexec /i windows_exporter-{{ _windows_exporter_version }}-{{ _win_arch }}.msi' ENABLED_COLLECTORS="ad,adfs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,vmware" TEXTFILE_DIR="C:\custom_metrics" LISTEN_PORT="9115"
+  win_shell: |
+    'msiexec /i windows_exporter-{{ _windows_exporter_version }}-{{ _win_arch }}.msi ENABLED_COLLECTORS="ad,adfs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,vmware" TEXTFILE_DIR="C:\custom_metrics" LISTEN_PORT="9115"'
   args:
     chdir: "{{ _windows_exporter_download_dir }}"
   register: _installed_exporter
