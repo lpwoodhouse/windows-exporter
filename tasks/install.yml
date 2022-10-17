@@ -30,7 +30,7 @@
       __windows_exporter_version: "{{ __win_file_version.file_major_part }}.{{ __win_file_version.file_minor_part }}.{{ __win_file_version.file_private_part }}"
     changed_when: false
     run_once: true
-    when: _windows_exporter_msi_local_path | length > 0
+  when: _windows_exporter_msi_local_path | length > 0
 
 - name: Install windows_exporter package
   win_shell: |
