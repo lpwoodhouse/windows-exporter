@@ -10,3 +10,22 @@
 #        required: false # true,false
 #        default: 10050 # use if required is false
 #        description: "This should be a port value from 1000-65535"
+argument_specs:
+  main:
+    short_description: The main entry point for the lpwoodhouse.windows_exporter role.
+    options:
+      _windows_exporter_version:
+        type: "str"
+        required: true
+        description: "This should be a string value equating to the desired release version"
+      _windows_exporter_msi_local_dir:
+        type: "str"
+        required: false
+        description: "This should be a string value for the directory containing the "
+
+
+
+
+_windows_exporter_version: latest
+_windows_exporter_msi_local_dir: ""
+_windows_exporter_download_dir: '%USERPROFILE\Downloads'

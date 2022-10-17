@@ -9,17 +9,32 @@
   until: _download_installer is succeeded
   retries: 5
   delay: 2
-  when: _windows_exporter_msi_local_dir | length == 0
+- name: Set windows_exporter download directory
+  set_fact:
+    _windows_exporter_download_dir: '{{ _download_instaler.dest }}'
+  when: _windows_exporter_msi_local_path | length == 0
 
-- name: propagate locally distributed node_exporter binary
-  win_copy:
-    src: '{{ _windows_exporter_msi_local_dir }}/windows_exporter-{{ _windows_exporter_version }}-{{ _win_arch }}.msi'
-    dest: "{{ _windows_exporter_download_dir }}"
-  when: _windows_exporter_msi_local_dir | length > 0
+- block:
+  - name: Copy local msi installer to remote host
+    win_copy:
+      src: '{{ _windows_exporter_msi_local_path }}'
+      dest: "{{ _windows_exporter_download_dir }}"
+    register: __windows_exporter_copied
+  - name: Get windows_exporter version (if any)
+    win_file_version:
+      path: '{{ _windows_exporter_msi_local_path }}'
+    changed_when: false
+    register: __win_file_version
+  - name: "Set windows_exporter version to {{ __latest_release.json.tag_name[1:] }}"
+    set_fact:
+      __windows_exporter_version: "{{ __win_file_version.file_major_part }}.{{ __win_file_version.file_minor_part }}.{{ __win_file_version.file_private_part }}"
+    changed_when: false
+    run_once: true
+    when: _windows_exporter_msi_local_path | length > 0
 
 - name: Install windows_exporter package
   win_shell: |
-    'msiexec /i windows_exporter-{{ _windows_exporter_version }}-{{ _win_arch }}.msi ENABLED_COLLECTORS="ad,adfs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,vmware" TEXTFILE_DIR="C:\custom_metrics" LISTEN_PORT="9115"'
+    'msiexec /i {{ _windows_exporter_download_dir }} ENABLED_COLLECTORS="ad,adfs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,vmware" TEXTFILE_DIR="C:\custom_metrics" LISTEN_PORT="9115"'
   args:
     chdir: "{{ _windows_exporter_download_dir }}"
   register: _installed_exporter
