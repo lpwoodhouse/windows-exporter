@@ -24,7 +24,7 @@
     register: __windows_exporter_current_version_output
   - name: Set windows_exporter version
     set_fact:
-      _windows_exporter_version: '{{__windows_exporter_current_version_output.file_major_part}}.{{__windows_exporter_current_version_output.file_minor_part}}.{{__windows_exporter_current_version_output.file_private_part}}''
+      _windows_exporter_version: '{{__windows_exporter_current_version_output.file_major_part}}.{{__windows_exporter_current_version_output.file_minor_part}}.{{__windows_exporter_current_version_output.file_private_part}}'
   when: _windows_exporter_msi_local_dir | length > 0
 
 - name: Install windows_exporter package
@@ -33,4 +33,3 @@
   args:
     chdir: "{{ _windows_exporter_download_dir }}"
   register: _installed_exporter
-
