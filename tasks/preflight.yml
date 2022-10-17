@@ -19,13 +19,13 @@
         return_content: true
         status_code: 200
         body_format: json
-      register: _latest_release
-      until: _latest_release.status == 200
+      register: __latest_release
+      until: __latest_release.status == 200
       retries: 5
 
-    - name: "Set windows_exporter version to {{ _latest_release.json.tag_name[1:] }}"
+    - name: "Set windows_exporter version to {{ __latest_release.json.tag_name[1:] }}"
       set_fact:
-        _windows_exporter_version: "{{ _latest_release.json.tag_name[1:] }}"
+        _windows_exporter_version: "{{ __latest_release.json.tag_name[1:] }}"
   when:
     - _windows_exporter_version == "latest"
     - _windows_exporter_msi_local_dir | length == 0
@@ -35,14 +35,14 @@
 - block:
     - name: Get checksum list from github
       set_fact:
-        _checksums: "{{ lookup('url', 'https://github.com/prometheus-community/windows_exporter/releases/download/v' + _windows_exporter_version + '/sha256sums.txt', wantlist=True) | list }}"
+        __checksums: "{{ lookup('url', 'https://github.com/prometheus-community/windows_exporter/releases/download/v' + _windows_exporter_version + '/sha256sums.txt', wantlist=True) | list }}"
       run_once: true
 
-    - name: "Get checksum for {{ win_arch }} architecture"
+    - name: "Get checksum for {{ _win_arch }} architecture"
       set_fact:
-        windows_exporter_checksum: "{{ item.split(' ')[0] }}"
-      with_items: "{{ _checksums }}"
+        __windows_exporter_checksum: "{{ item.split(' ')[0] }}"
+      with_items: "{{ __checksums }}"
       when:
-        - "('windows_exporter-' + _windows_exporter_version + '-' + win_arch + '.msi') in item"
+        - "('windows_exporter-' + _windows_exporter_version + '-' + _win_arch + '.msi') in item"
   delegate_to: localhost
   when: _windows_exporter_msi_local_dir | length == 0
