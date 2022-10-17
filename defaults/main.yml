@@ -1,1 +1,4 @@
 ---
+windows_exporter_version: latest
+windows_exporter_msi_local_dir: ""
+_windows_exporter_exe_install_dir: 'C:\Program Files\windows_exporter'
