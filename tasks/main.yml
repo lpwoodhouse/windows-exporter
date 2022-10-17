@@ -1,9 +1,6 @@
 ---
-- name: run preflight checksum
-  include_tasks: preflight.yml
+- import_tasks: preflight.yml
 
-- name: install windows exporter
-  include_tasks: install_windows_exporter.yml
+#- import_tasks: install_windows_exporter.yml
 
-- name: configure prometheus
-  include_tasks: configure_prometheus.yml
+#- import_tasks: configure_prometheus.yml
