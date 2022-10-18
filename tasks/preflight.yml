@@ -12,7 +12,7 @@
     register: __windows_exporter_msi_path_valid
     when: (not _windows_exporter_msi_remote_src|bool)
   - block:
-    - debug: msg="_windows_exporter_msi_path not valid"
+    - debug: msg="windows exporter msi path not valid"
     - meta: end_play
     when: (not __windows_exporter_msi_path_valid.stat.exists)
   when: _windows_exporter_msi_path | length > 0
