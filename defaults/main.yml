@@ -5,7 +5,7 @@ _windows_exporter_version: latest
 
 # The path (on local or remote host) to an existing .msi installer for installing windows_exporter
 # Must be blank quotes "" if the file is to be downloaded
-_windows_exporter_msi_path: 'C:\Users\Lee\Downloads\windows_exporter-0.19.0-amd64.msi'
+_windows_exporter_msi_path: ""
 # Must be true if the windows exporter .msi path is on the remote host and false is the path is on localhost
 _windows_exporter_msi_remote_src: true
 
