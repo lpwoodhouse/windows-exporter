@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: Lee Woodhouse
-  description: This role installs/configures...
+  description: This role downloads, installs and configures Windows Exporter for Windows.
   company: www.leewoodhouse.com
   license: MIT
   min_ansible_version: 2.10
