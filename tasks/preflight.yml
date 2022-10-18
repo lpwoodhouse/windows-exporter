@@ -3,18 +3,22 @@
   - name: Check validity of _windows_exporter_msi_path
     win_stat:
       path: '_windows_exporter_msi_path'
-    register: __windows_exporter_msi_path_valid
-    when: (_windows_exporter_msi_remote_src|bool)
+    changed_when: false
+    register: __windows_exporter_msi_remote_path_valid
+    when: _windows_exporter_msi_remote_src|bool
   - name: Check validity of _windows_exporter_msi_path
     win_stat:
       path: '_windows_exporter_msi_path'
     delegate_to: localhost
-    register: __windows_exporter_msi_path_valid
-    when: (not _windows_exporter_msi_remote_src|bool)
+    changed_when: false
+    register: __windows_exporter_msi_local_path_valid
+    when: not _windows_exporter_msi_remote_src|bool
   - block:
     - debug: msg="windows exporter msi path not valid"
     - meta: end_play
-    when: (not __windows_exporter_msi_path_valid.stat.exists)
+    when: |
+      (not __windows_exporter_msi_remote_path_valid.stat.exists) or
+      (not __windows_exporter_msi_local_path_valid.stat.exists)
   when: _windows_exporter_msi_path | length > 0
 
 - name: Check if windows_exporter is installed
