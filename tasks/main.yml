@@ -4,4 +4,4 @@
 - import_tasks: install.yml
   when: |
     ( not __windows_exporter_is_installed.stat.exists ) or ( (__windows_exporter_current_version_output.file_minor_part | length > 0) and
-    (__windows_exporter_current_version_output.file_minor_part != _windows_exporter_version.split(".")[1]) ) or ( windows_exporter_msi_local_dir | length > 0 )
+    (__windows_exporter_current_version_output.file_minor_part != _windows_exporter_version.split(".")[1]) ) or ( windows_exporter_msi_path | length > 0 )
