@@ -6,7 +6,7 @@ argument_specs:
     options:
       _windows_exporter_version:
         type: "str"
-        required: true
+        required: false
         default: latest
         description: "This should be a string value equating to the desired release version"
       _windows_exporter_msi_path:
@@ -22,5 +22,4 @@ argument_specs:
       _windows_exporter_download_dir:
         type: "str"
         required: true
-        default: 'C:\Windows\Temp'
         description: "This should be a string value for a directoy on the remote host"
